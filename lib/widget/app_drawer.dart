@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoepal/constants/colors.dart';
+import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/screens/orders_screen.dart';
 
 class AppDrawer extends StatelessWidget {

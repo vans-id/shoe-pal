@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shoepal/constants/colors.dart';
+import 'package:shoepal/shared/colors.dart';
 import 'dart:math';
 
 import 'package:shoepal/providers/orders.dart' as ord;

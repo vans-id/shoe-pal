@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
-import 'package:shoepal/constants/colors.dart';
 
+import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/screens/orders_screen.dart';
 import 'package:shoepal/screens/products_overview_screen.dart';
 
@@ -11,8 +11,6 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
-  GlobalKey _bottomNavigationKey = GlobalKey();
-
   int selectedIndex = 0;
   final widgetOptions = [
     ProductsOverviewScreen(),

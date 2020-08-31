@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shoepal/constants/colors.dart';
 
-import 'package:shoepal/providers/cart.dart';
+import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/product.dart';
 import 'package:shoepal/screens/product_detail_screen.dart';
+import 'package:shoepal/shared/functions.dart';
 
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
@@ -28,14 +27,7 @@ class ProductItem extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.shopping_bag_outlined),
                 color: Colors.black,
-                onPressed: () {
-                  cart.addItem(
-                    product.id,
-                    product.title,
-                    product.price,
-                    product.imageUrl,
-                  );
-                },
+                onPressed: () => onAddToCart(product, context),
               ),
               Consumer<Product>(
                 builder: (ctx, product, _) => IconButton(

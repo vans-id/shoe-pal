@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:shoepal/constants/colors.dart';
+import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/cart.dart';
 
 class CartItem extends StatelessWidget {
