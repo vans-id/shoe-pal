@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoepal/screens/user_products_screen.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 import 'package:shoepal/shared/colors.dart';
@@ -15,6 +16,7 @@ class _NavScreenState extends State<NavScreen> {
   final widgetOptions = [
     ProductsOverviewScreen(),
     OrdersScreen(),
+    UserProductsScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -42,6 +44,10 @@ class _NavScreenState extends State<NavScreen> {
           TitledNavigationBarItem(
             title: Text('Transactions'),
             icon: Icons.compare_arrows,
+          ),
+          TitledNavigationBarItem(
+            title: Text('Products'),
+            icon: Icons.dashboard,
           ),
         ],
       ),

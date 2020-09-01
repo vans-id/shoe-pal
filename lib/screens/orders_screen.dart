@@ -13,7 +13,7 @@ class OrdersScreen extends StatelessWidget {
     return Scaffold(
       // drawer: AppDrawer(),
       appBar: AppBar(
-        title: Text('Transactions'),
+        title: const Text('Transactions'),
       ),
       body: ListView.builder(
         itemCount: orderData.orders.length,

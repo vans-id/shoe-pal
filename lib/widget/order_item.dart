@@ -19,18 +19,21 @@ class _OrderItemState extends State<OrderItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 2,
+        horizontal: 16,
+      ),
+      child: Card(
+        elevation: 3,
         child: Column(
           children: <Widget>[
             ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  widget.order.products[0].imageUrl,
-                ),
-              ),
+              // leading: CircleAvatar(
+              //   backgroundImage: NetworkImage(
+              //     widget.order.products[0].imageUrl,
+              //   ),
+              // ),
               title: Text(
                 'Rp ${numberFormat(widget.order.ammount.toStringAsFixed(0))}',
                 style: Theme.of(context).textTheme.bodyText1,
@@ -52,7 +55,7 @@ class _OrderItemState extends State<OrderItem> {
               Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 4,
-                  horizontal: 10,
+                  horizontal: 16,
                 ),
                 height: min(widget.order.products.length * 20.0 + 60, 180),
                 child: ListView(
