@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shoepal/providers/products.dart';
+import 'package:shoepal/screens/single_product_screen.dart';
 import 'package:shoepal/screens/user_product_item.dart';
 import 'package:shoepal/shared/colors.dart';
 
@@ -15,15 +16,25 @@ class UserProductsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: customBlack,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed(SingleProductScreen.routeName);
+            },
+          )
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 2,
-          horizontal: 16,
-        ),
+        padding: const EdgeInsets.all(16),
         child: ListView.builder(
           itemBuilder: (_, i) => Column(children: <Widget>[
             UserProductItem(
+              productsData.items[i].id,
               productsData.items[i].title,
               productsData.items[i].imageUrl,
             ),
@@ -34,15 +45,18 @@ class UserProductsScreen extends StatelessWidget {
           itemCount: productsData.items.length,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: customBlack,
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 30,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: customBlack,
+      //   onPressed: () {
+      //     Navigator.of(context).pushNamed(SingleProductScreen.routeName);
+      //   },
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //     size: 30,
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

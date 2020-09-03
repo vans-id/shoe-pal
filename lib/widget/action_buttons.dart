@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/product.dart';
 import 'package:shoepal/shared/functions.dart';
+import 'package:shoepal/widget/button.dart';
 
 class ActionButtons extends StatelessWidget {
   final Product loadedProduct;
@@ -41,22 +41,9 @@ class ActionButtons extends StatelessWidget {
               ),
               SizedBox(width: 12),
               Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: RaisedButton(
-                    color: customBlack,
-                    onPressed: () => onAddToCart(loadedProduct, context),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Text(
-                        'Add to Cart',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                child: Button(
+                  'Add To Cart',
+                  () => onAddToCart(loadedProduct, context),
                 ),
               ),
             ],

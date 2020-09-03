@@ -14,6 +14,7 @@ class OrdersScreen extends StatelessWidget {
       // drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text('Transactions'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: orderData.orders.length,

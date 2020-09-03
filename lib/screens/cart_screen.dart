@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/cart.dart' show Cart;
 import 'package:shoepal/providers/orders.dart';
+import 'package:shoepal/widget/button.dart';
 import 'package:shoepal/widget/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -72,27 +73,11 @@ class CartScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: RaisedButton(
-                      color: customBlack,
-                      onPressed: () {
-                        Provider.of<Orders>(context, listen: false).addOrder(
-                            cart.items.values.toList(), cart.totalAmmount);
-                        cart.clear();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: Text(
-                          'Checkout',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: Button('Checkout', () {
+                    Provider.of<Orders>(context, listen: false).addOrder(
+                        cart.items.values.toList(), cart.totalAmmount);
+                    cart.clear();
+                  }),
                 ),
               ],
             )
