@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shoepal/providers/cart.dart';
+import 'package:shoepal/providers/products.dart';
 import 'package:shoepal/screens/cart_screen.dart';
+import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/widget/badge.dart';
 import 'package:shoepal/widget/products_grid.dart';
 
@@ -18,6 +20,24 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavoritesData = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +108,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               ],
             ),
           ),
-          ProductsGrid(_showOnlyFavoritesData),
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(customBlack),
+                  ),
+                )
+              : ProductsGrid(_showOnlyFavoritesData),
         ],
       ),
     );

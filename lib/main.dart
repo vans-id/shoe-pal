@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoepal/screens/auth_screen.dart';
 
 import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/cart.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: NavScreen(),
+        // home: AuthScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),

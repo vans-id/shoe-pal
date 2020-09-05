@@ -1,6 +1,6 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shoepal/screens/user_products_screen.dart';
-import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/screens/orders_screen.dart';
@@ -12,7 +12,7 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
   final widgetOptions = [
     ProductsOverviewScreen(),
     OrdersScreen(),
@@ -21,7 +21,7 @@ class _NavScreenState extends State<NavScreen> {
 
   void onItemTapped(int index) {
     setState(() {
-      selectedIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -29,27 +29,37 @@ class _NavScreenState extends State<NavScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: widgetOptions.elementAt(selectedIndex),
+        child: widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: TitledBottomNavigationBar(
-        activeColor: customBlack,
-        currentIndex: selectedIndex,
-        indicatorColor: customBlack,
-        onTap: (index) => onItemTapped(index),
-        items: [
-          TitledNavigationBarItem(
-            title: Text('Home'),
-            icon: Icons.home,
-          ),
-          TitledNavigationBarItem(
-            title: Text('Transactions'),
-            icon: Icons.compare_arrows,
-          ),
-          TitledNavigationBarItem(
-            title: Text('Products'),
-            icon: Icons.dashboard,
-          ),
-        ],
+      bottomNavigationBar: Container(
+        height: 74,
+        child: CurvedNavigationBar(
+          height: 55.0,
+          color: Colors.white,
+          buttonBackgroundColor: Colors.white,
+          backgroundColor: customBlack,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          index: _selectedIndex,
+          onTap: (index) => onItemTapped(index),
+          items: [
+            Icon(
+              Icons.home,
+              size: 30,
+              color: customBlack,
+            ),
+            Icon(
+              Icons.compare_arrows,
+              size: 30,
+              color: customBlack,
+            ),
+            Icon(
+              Icons.list,
+              size: 30,
+              color: customBlack,
+            ),
+          ],
+        ),
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: <BottomNavigationBarItem>[

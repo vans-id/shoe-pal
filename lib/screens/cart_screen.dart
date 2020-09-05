@@ -73,11 +73,14 @@ class CartScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Button('Checkout', () {
-                    Provider.of<Orders>(context, listen: false).addOrder(
-                        cart.items.values.toList(), cart.totalAmmount);
-                    cart.clear();
-                  }),
+                  child: Button(
+                    title: 'Checkout',
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.items.values.toList(), cart.totalAmmount);
+                      cart.clear();
+                    },
+                  ),
                 ),
               ],
             )

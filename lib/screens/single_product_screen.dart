@@ -34,6 +34,7 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
     'imageUrl': '',
   };
   var _isEditMode = false;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -90,7 +91,7 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState.validate();
 
     if (!isValid) {
@@ -98,12 +99,9 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
     }
 
     _form.currentState.save();
-
-    print(_newProduct.id);
-    print(_newProduct.title);
-    print(_newProduct.price);
-    print(_newProduct.description);
-    print(_newProduct.imageUrl);
+    setState(() {
+      _isLoading = true;
+    });
 
     if (_newProduct.id != null) {
       // edit product
@@ -113,10 +111,45 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
       );
     } else {
       // Add Product
-      Provider.of<Products>(context, listen: false).addProduct(_newProduct);
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_newProduct);
+      } catch (err) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            title: Text(
+              'An Error Occured',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            // content: Text(err.toString()),
+            content: Text(
+              'Something went wrong, please try again later',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Okay',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              )
+            ],
+          ),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pop();
+      }
     }
-
-    Navigator.of(context).pop();
   }
 
   @override
@@ -267,7 +300,7 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
                           if (!val.endsWith('png') &&
                               !val.endsWith('jpg') &&
                               !val.endsWith('jpeg')) {
-                            return 'Provided link is not an image URL';
+                            return 'Provided link must ends with jpg, png, or jpeg';
                           }
                           return null;
                         },
@@ -300,8 +333,9 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
               children: [
                 Expanded(
                   child: Button(
-                    _isEditMode ? 'Save Changes' : 'Add Product',
-                    _saveForm,
+                    title: _isEditMode ? 'Save Changes' : 'Add Product',
+                    onPressed: _saveForm,
+                    isLoading: _isLoading,
                   ),
                 ),
               ],

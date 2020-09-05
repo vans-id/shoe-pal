@@ -42,8 +42,8 @@ class ActionButtons extends StatelessWidget {
               SizedBox(width: 12),
               Expanded(
                 child: Button(
-                  'Add To Cart',
-                  () => onAddToCart(loadedProduct, context),
+                  title: 'Add To Cart',
+                  onPressed: () => onAddToCart(loadedProduct, context),
                 ),
               ),
             ],

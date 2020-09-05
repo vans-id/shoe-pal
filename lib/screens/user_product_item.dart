@@ -39,7 +39,44 @@ class UserProductItem extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                Provider.of<Products>(context, listen: false).deleteProduct(id);
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    title: Text(
+                      'Delete Product?',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    content: Text(
+                      'Please consider this action cannot be undo',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    actions: [
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop(false);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Provider.of<Products>(context, listen: false)
+                              .deleteProduct(id);
+                          Navigator.of(ctx).pop(true);
+                        },
+                        child: Text(
+                          'Ok',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               },
               color: Colors.red,
             ),
