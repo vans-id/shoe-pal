@@ -15,7 +15,7 @@ class Button extends StatelessWidget {
   Widget setButtonChild(BuildContext ctx) {
     if (isLoading) {
       return CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        valueColor: AlwaysStoppedAnimation<Color>(customBlack),
       );
     } else {
       return Text(
@@ -33,7 +33,7 @@ class Button extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         child: RaisedButton(
           color: customBlack,
-          onPressed: onPressed,
+          onPressed: isLoading ? null : onPressed,
           child: setButtonChild(context),
         ),
       ),

@@ -35,7 +35,7 @@ class ActionButtons extends StatelessWidget {
                     icon: Icon(product.isFavorite
                         ? Icons.favorite
                         : Icons.favorite_outline),
-                    onPressed: () => product.toggleFavoriteStatus(),
+                    onPressed: () => product.toggleFavoriteStatus(product.id),
                   ),
                 ),
               ),

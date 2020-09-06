@@ -31,35 +31,20 @@ class _NavScreenState extends State<NavScreen> {
       body: Center(
         child: widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: Container(
-        height: 74,
-        child: CurvedNavigationBar(
-          height: 55.0,
-          color: Colors.white,
-          buttonBackgroundColor: Colors.white,
-          backgroundColor: customBlack,
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
-          index: _selectedIndex,
-          onTap: (index) => onItemTapped(index),
-          items: [
-            Icon(
-              Icons.home,
-              size: 30,
-              color: customBlack,
-            ),
-            Icon(
-              Icons.compare_arrows,
-              size: 30,
-              color: customBlack,
-            ),
-            Icon(
-              Icons.list,
-              size: 30,
-              color: customBlack,
-            ),
-          ],
-        ),
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 50.0,
+        color: customBlack,
+        buttonBackgroundColor: customBlack,
+        backgroundColor: Colors.white,
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
+        index: _selectedIndex,
+        onTap: (index) => onItemTapped(index),
+        items: [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+          Icon(Icons.list, size: 30, color: Colors.white),
+        ],
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: <BottomNavigationBarItem>[

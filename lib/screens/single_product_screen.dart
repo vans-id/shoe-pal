@@ -103,52 +103,52 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
       _isLoading = true;
     });
 
-    if (_newProduct.id != null) {
-      // edit product
-      Provider.of<Products>(context, listen: false).editProduct(
-        _newProduct.id,
-        _newProduct,
-      );
-    } else {
-      // Add Product
-      try {
+    try {
+      if (_newProduct.id != null) {
+        // edit product
+        await Provider.of<Products>(context, listen: false).editProduct(
+          _newProduct.id,
+          _newProduct,
+        );
+      } else {
+        // Add Product
         await Provider.of<Products>(context, listen: false)
             .addProduct(_newProduct);
-      } catch (err) {
-        await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            title: Text(
-              'An Error Occured',
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            // content: Text(err.toString()),
-            content: Text(
-              'Something went wrong, please try again later',
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Okay',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              )
-            ],
-          ),
-        );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
+    } catch (e) {
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          title: Text(
+            'An Error Occured',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          // content: Text(err.toString()),
+          content: Text(
+            'Something went wrong, please try again later',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Okay',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            )
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     }
   }
 

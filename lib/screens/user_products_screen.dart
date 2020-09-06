@@ -9,6 +9,10 @@ import 'package:shoepal/shared/colors.dart';
 class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
 
+  Future<void> _refreshProduct(BuildContext context) async {
+    await Provider.of<Products>(context).fetchAndSetProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -29,20 +33,24 @@ class UserProductsScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-          itemBuilder: (_, i) => Column(children: <Widget>[
-            UserProductItem(
-              productsData.items[i].id,
-              productsData.items[i].title,
-              productsData.items[i].imageUrl,
-            ),
-            Divider(
-              color: Colors.grey[700],
-            ),
-          ]),
-          itemCount: productsData.items.length,
+      body: RefreshIndicator(
+        backgroundColor: customBlack,
+        onRefresh: () => _refreshProduct(context),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView.builder(
+            itemBuilder: (_, i) => Column(children: <Widget>[
+              UserProductItem(
+                productsData.items[i].id,
+                productsData.items[i].title,
+                productsData.items[i].imageUrl,
+              ),
+              Divider(
+                color: Colors.grey[700],
+              ),
+            ]),
+            itemCount: productsData.items.length,
+          ),
         ),
       ),
       // floatingActionButton: FloatingActionButton(

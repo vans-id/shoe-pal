@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoepal/models/http_exception.dart';
 
 import 'package:shoepal/providers/product.dart';
 
@@ -116,17 +117,44 @@ class Products with ChangeNotifier {
     }
   }
 
-  void editProduct(String id, Product newProduct) {
+  Future<void> editProduct(String id, Product newProduct) async {
+    final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
     final prodIndex = _items.indexWhere((item) => item.id == id);
-    _items[prodIndex] = newProduct;
 
-    notifyListeners();
+    try {
+      await http.patch(
+        url,
+        body: json.encode({
+          'title': newProduct.title,
+          'description': newProduct.description,
+          'price': newProduct.price,
+          'imageUrl': newProduct.imageUrl,
+        }),
+      );
+
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((item) => item.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
+    final existingProductIndex = _items.indexWhere((item) => item.id == id);
+    var existingProduct = _items[existingProductIndex];
 
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+
+    final res = await http.delete(url);
+    if (res.statusCode >= 400) {
+      items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product');
+    }
+
+    existingProduct = null;
   }
 
   Product findById(String id) {
