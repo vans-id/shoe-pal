@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:shoepal/models/http_exception.dart';
 
 class CartItem {
   final String id;
@@ -36,7 +41,10 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void removeItem(String productId) {
+  Future<void> removeItem(String productId) async {
+    // final url = 'https://shoepal-7137e.firebaseio.com/cart/$productId.json';
+    // await http.delete(url);
+
     _items.remove(productId);
     notifyListeners();
   }
@@ -62,12 +70,63 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void addItem(
+  Future<void> addItem(
     String productId,
     String title,
     double price,
     String imageUrl,
-  ) {
+  ) async {
+    // const url = 'https://shoepal-7137e.firebaseio.com/cart.json';
+
+    // try {
+    // if (_items.containsKey(productId)) {
+    //   await http.patch(
+    //     url,
+    //     body: json.encode(
+    //       {
+    //         'id': _items[productId].id,
+    //         'title': _items[productId].title,
+    //         'quantity': _items[productId].quantity + 1,
+    //         'price': _items[productId].price,
+    //         'imageUrl': _items[productId].imageUrl,
+    //       },
+    //     ),
+    //   );
+
+    //   _items.update(
+    //     productId,
+    //     (existingCartItem) => CartItem(
+    //       id: existingCartItem.id,
+    //       title: existingCartItem.title,
+    //       quantity: existingCartItem.quantity + 1,
+    //       price: existingCartItem.price,
+    //       imageUrl: existingCartItem.imageUrl,
+    //     ),
+    //   );
+    // } else {
+    //   final res = await http.post(
+    //     url,
+    //     body: json.encode(
+    //       {
+    //         'title': _items[productId].title,
+    //         'quantity': _items[productId].quantity + 1,
+    //         'price': _items[productId].price,
+    //         'imageUrl': _items[productId].imageUrl,
+    //       },
+    //     ),
+    //   );
+    //   _items.putIfAbsent(
+    //     productId,
+    //     () => CartItem(
+    //       id: json.decode(res.body)['name'],
+    //       title: title,
+    //       quantity: 1,
+    //       price: price,
+    //       imageUrl: imageUrl,
+    //     ),
+    //   );
+    // }
+
     if (_items.containsKey(productId)) {
       _items.update(
         productId,

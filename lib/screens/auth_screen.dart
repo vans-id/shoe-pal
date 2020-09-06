@@ -151,6 +151,7 @@ class _AuthCardState extends State<AuthCard> {
                     if (val.isEmpty || !val.contains('@')) {
                       return 'Please enter a valid email';
                     }
+                    return null;
                   },
                   onSaved: (val) {
                     _authData['email'] = val;
@@ -164,6 +165,7 @@ class _AuthCardState extends State<AuthCard> {
                     if (val.isEmpty || val.length < 8) {
                       return 'Minimum password length is 8';
                     }
+                    return null;
                   },
                   onSaved: (val) {
                     _authData['password'] = val;
@@ -179,6 +181,7 @@ class _AuthCardState extends State<AuthCard> {
                             if (val != _passwordController.text) {
                               return 'Password do not match';
                             }
+                            return null;
                           }
                         : null,
                   ),

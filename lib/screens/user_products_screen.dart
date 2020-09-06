@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shoepal/providers/products.dart';
 import 'package:shoepal/screens/single_product_screen.dart';
-import 'package:shoepal/screens/user_product_item.dart';
+import 'package:shoepal/widget/user_product_item.dart';
 import 'package:shoepal/shared/colors.dart';
 
 class UserProductsScreen extends StatelessWidget {

@@ -70,24 +70,55 @@ class CartScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 4),
-            Row(
-              children: [
-                Expanded(
-                  child: Button(
-                    title: 'Checkout',
-                    onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                          cart.items.values.toList(), cart.totalAmmount);
-                      cart.clear();
-                    },
-                  ),
-                ),
-              ],
-            )
+            OrderButton(cart: cart)
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key key,
+    @required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Button(
+            title: 'Checkout',
+            onPressed: widget.cart.totalAmmount <= 0
+                ? null
+                : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await Provider.of<Orders>(context, listen: false).addOrder(
+                        widget.cart.items.values.toList(),
+                        widget.cart.totalAmmount);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    widget.cart.clear();
+                  },
+            isLoading: _isLoading,
+          ),
+        ),
+      ],
     );
   }
 }

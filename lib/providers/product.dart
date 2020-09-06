@@ -21,30 +21,37 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
+  void _setFavStatus(bool newStatus) {
+    isFavorite = newStatus;
+  }
+
   Future<void> toggleFavoriteStatus(String prodId) async {
     final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
 
     bool currentStatus = isFavorite;
-    isFavorite = !currentStatus;
-    notifyListeners();
+    _setFavStatus(!currentStatus);
 
-    final res = await http.patch(
-      url,
-      body: json.encode(
-        {
-          'title': title,
-          'description': description,
-          'price': price,
-          'imageUrl': imageUrl,
-          'isFavorite': isFavorite,
-        },
-      ),
-    );
-    if (res.statusCode >= 400) {
-      isFavorite = currentStatus;
-      notifyListeners();
-      throw HttpException('Could not delete product');
+    try {
+      final res = await http.patch(
+        url,
+        body: json.encode(
+          {
+            'title': title,
+            'description': description,
+            'price': price,
+            'imageUrl': imageUrl,
+            'isFavorite': isFavorite,
+          },
+        ),
+      );
+      if (res.statusCode >= 400) {
+        _setFavStatus(currentStatus);
+        throw HttpException('Could not delete product');
+      }
+    } catch (err) {
+      _setFavStatus(currentStatus);
     }
+
     currentStatus = null;
   }
 }
