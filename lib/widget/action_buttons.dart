@@ -16,11 +16,11 @@ class ActionButtons extends StatelessWidget {
       value: loadedProduct,
       child: Container(
         width: double.infinity,
-        height: 90,
+        height: 70,
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 16,
+            vertical: 4,
             horizontal: 30,
           ),
           child: Row(

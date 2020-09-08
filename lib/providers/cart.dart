@@ -76,57 +76,6 @@ class Cart with ChangeNotifier {
     double price,
     String imageUrl,
   ) async {
-    // const url = 'https://shoepal-7137e.firebaseio.com/cart.json';
-
-    // try {
-    // if (_items.containsKey(productId)) {
-    //   await http.patch(
-    //     url,
-    //     body: json.encode(
-    //       {
-    //         'id': _items[productId].id,
-    //         'title': _items[productId].title,
-    //         'quantity': _items[productId].quantity + 1,
-    //         'price': _items[productId].price,
-    //         'imageUrl': _items[productId].imageUrl,
-    //       },
-    //     ),
-    //   );
-
-    //   _items.update(
-    //     productId,
-    //     (existingCartItem) => CartItem(
-    //       id: existingCartItem.id,
-    //       title: existingCartItem.title,
-    //       quantity: existingCartItem.quantity + 1,
-    //       price: existingCartItem.price,
-    //       imageUrl: existingCartItem.imageUrl,
-    //     ),
-    //   );
-    // } else {
-    //   final res = await http.post(
-    //     url,
-    //     body: json.encode(
-    //       {
-    //         'title': _items[productId].title,
-    //         'quantity': _items[productId].quantity + 1,
-    //         'price': _items[productId].price,
-    //         'imageUrl': _items[productId].imageUrl,
-    //       },
-    //     ),
-    //   );
-    //   _items.putIfAbsent(
-    //     productId,
-    //     () => CartItem(
-    //       id: json.decode(res.body)['name'],
-    //       title: title,
-    //       quantity: 1,
-    //       price: price,
-    //       imageUrl: imageUrl,
-    //     ),
-    //   );
-    // }
-
     if (_items.containsKey(productId)) {
       _items.update(
         productId,

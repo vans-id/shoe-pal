@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
       floatingActionButton: Container(
         color: Colors.white,
         height: 105,
-        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
         child: Column(
           children: [
             Row(
@@ -94,6 +94,45 @@ class OrderButton extends StatefulWidget {
 class _OrderButtonState extends State<OrderButton> {
   var _isLoading = false;
 
+  void onPressed() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<Orders>(context, listen: false)
+        .addOrder(widget.cart.items.values.toList(), widget.cart.totalAmmount);
+    setState(() {
+      _isLoading = false;
+    });
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        title: Text(
+          'Success Checkout',
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        content: Text(
+          'Your transaction is in process',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Okay',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          )
+        ],
+      ),
+    );
+    widget.cart.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -101,20 +140,7 @@ class _OrderButtonState extends State<OrderButton> {
         Expanded(
           child: Button(
             title: 'Checkout',
-            onPressed: widget.cart.totalAmmount <= 0
-                ? null
-                : () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    await Provider.of<Orders>(context, listen: false).addOrder(
-                        widget.cart.items.values.toList(),
-                        widget.cart.totalAmmount);
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    widget.cart.clear();
-                  },
+            onPressed: widget.cart.totalAmmount <= 0 ? null : onPressed,
             isLoading: _isLoading,
           ),
         ),

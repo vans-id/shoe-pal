@@ -46,7 +46,9 @@ class Products with ChangeNotifier {
     // ),
   ];
 
-  // var _showFavoritesOnly = false;
+  final String _authToken;
+
+  Products(this._authToken, this._items);
 
   List<Product> get favoriteItems {
     return _items.where((item) => item.isFavorite).toList();
@@ -57,7 +59,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    const url = 'https://shoepal-7137e.firebaseio.com/products.json';
+    final url =
+        'https://shoepal-7137e.firebaseio.com/products.json?auth=$_authToken';
 
     try {
       final res = await http.get(url);

@@ -7,6 +7,8 @@ import 'package:shoepal/screens/orders_screen.dart';
 import 'package:shoepal/screens/products_overview_screen.dart';
 
 class NavScreen extends StatefulWidget {
+  static const routeName = '/navs';
+
   @override
   _NavScreenState createState() => _NavScreenState();
 }
@@ -28,37 +30,25 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: widgetOptions.elementAt(_selectedIndex),
+      body: widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: SizedBox(
+        height: 65,
+        child: CurvedNavigationBar(
+          height: 50.0,
+          color: customBlack,
+          buttonBackgroundColor: customBlack,
+          backgroundColor: Colors.white,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          index: _selectedIndex,
+          onTap: (index) => onItemTapped(index),
+          items: [
+            Icon(Icons.home, size: 30, color: Colors.white),
+            Icon(Icons.compare_arrows, size: 30, color: Colors.white),
+            Icon(Icons.list, size: 30, color: Colors.white),
+          ],
+        ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 50.0,
-        color: customBlack,
-        buttonBackgroundColor: customBlack,
-        backgroundColor: Colors.white,
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
-        index: _selectedIndex,
-        onTap: (index) => onItemTapped(index),
-        items: [
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.compare_arrows, size: 30, color: Colors.white),
-          Icon(Icons.list, size: 30, color: Colors.white),
-        ],
-      ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.local_drink), title: Text('Beers')),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.add_a_photo), title: Text('New Beer')),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.favorite), title: Text('Favourites')),
-      //   ],
-      //   currentIndex: selectedIndex,
-      //   fixedColor: Colors.deepPurple,
-      //   onTap: onItemTapped,
-      // ),
     );
   }
 }
