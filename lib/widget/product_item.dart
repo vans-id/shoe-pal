@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoepal/providers/auth.dart';
 
 import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/product.dart';
@@ -10,6 +11,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
@@ -35,7 +37,10 @@ class ProductItem extends StatelessWidget {
                       ? Icons.favorite
                       : Icons.favorite_outline),
                   color: Colors.black,
-                  onPressed: () => product.toggleFavoriteStatus(product.id),
+                  onPressed: () => product.toggleFavoriteStatus(
+                    authData.token,
+                    authData.userId,
+                  ),
                 ),
               ),
             ],

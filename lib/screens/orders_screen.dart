@@ -39,6 +39,7 @@ class OrdersScreen extends StatelessWidget {
               child: Text(
                 'Something went wrong. Please try again later',
                 style: Theme.of(context).textTheme.bodyText2,
+                textAlign: TextAlign.center,
               ),
             );
           } else {

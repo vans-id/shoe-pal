@@ -10,12 +10,15 @@ class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
 
   Future<void> _refreshProduct(BuildContext context) async {
-    await Provider.of<Products>(context).fetchAndSetProducts();
+    await Provider.of<Products>(
+      context,
+      listen: false,
+    ).fetchAndSetProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
+    // final productsData = Provider.of<Products>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,25 +36,37 @@ class UserProductsScreen extends StatelessWidget {
           )
         ],
       ),
-      body: RefreshIndicator(
-        backgroundColor: customBlack,
-        onRefresh: () => _refreshProduct(context),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ListView.builder(
-            itemBuilder: (_, i) => Column(children: <Widget>[
-              UserProductItem(
-                productsData.items[i].id,
-                productsData.items[i].title,
-                productsData.items[i].imageUrl,
-              ),
-              Divider(
-                color: Colors.grey[700],
-              ),
-            ]),
-            itemCount: productsData.items.length,
-          ),
-        ),
+      body: FutureBuilder(
+        future: _refreshProduct(context),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(customBlack),
+                    ),
+                  )
+                : RefreshIndicator(
+                    backgroundColor: customBlack,
+                    onRefresh: () => _refreshProduct(context),
+                    child: Consumer<Products>(
+                      builder: (ctx, productsData, _) => Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ListView.builder(
+                          itemBuilder: (_, i) => Column(children: <Widget>[
+                            UserProductItem(
+                              productsData.items[i].id,
+                              productsData.items[i].title,
+                              productsData.items[i].imageUrl,
+                            ),
+                            Divider(
+                              color: Colors.grey[700],
+                            ),
+                          ]),
+                          itemCount: productsData.items.length,
+                        ),
+                      ),
+                    ),
+                  ),
       ),
       // floatingActionButton: FloatingActionButton(
       //   backgroundColor: customBlack,

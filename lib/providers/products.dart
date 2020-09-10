@@ -47,8 +47,9 @@ class Products with ChangeNotifier {
   ];
 
   final String _authToken;
+  final String _userId;
 
-  Products(this._authToken, this._items);
+  Products(this._authToken, this._items, this._userId);
 
   List<Product> get favoriteItems {
     return _items.where((item) => item.isFavorite).toList();
@@ -58,9 +59,11 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
-  Future<void> fetchAndSetProducts() async {
-    final url =
-        'https://shoepal-7137e.firebaseio.com/products.json?auth=$_authToken';
+  Future<void> fetchAndSetProducts([bool isFiltered = false]) async {
+    final filterString =
+        isFiltered ? 'orderBy="creatorId"&equalTo="$_userId"' : '';
+    var url =
+        'https://shoepal-7137e.firebaseio.com/products.json?auth=$_authToken&$filterString';
 
     try {
       final res = await http.get(url);
@@ -71,6 +74,12 @@ class Products with ChangeNotifier {
         return;
       }
 
+      // Fetch favorites
+      url =
+          'https://shoepal-7137e.firebaseio.com/userFavorites/$_userId.json?auth=$_authToken';
+      final favoriteRes = await http.get(url);
+      final favoriteData = json.decode(favoriteRes.body);
+
       data.forEach((prodId, prodData) {
         loadedProduct.insert(
             0,
@@ -80,7 +89,8 @@ class Products with ChangeNotifier {
               description: prodData['description'],
               price: prodData['price'],
               imageUrl: prodData['imageUrl'],
-              isFavorite: prodData['isFavorite'],
+              isFavorite:
+                  favoriteData == null ? false : favoriteData[prodId] ?? false,
             ));
       });
 
@@ -93,7 +103,8 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     // firebase url
-    const url = 'https://shoepal-7137e.firebaseio.com/products.json';
+    final url =
+        'https://shoepal-7137e.firebaseio.com/products.json?auth=$_authToken';
 
     try {
       final res = await http.post(
@@ -103,7 +114,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
+          'creatorId': _userId,
         }),
       );
 
@@ -125,7 +136,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> editProduct(String id, Product newProduct) async {
-    final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
+    final url =
+        'https://shoepal-7137e.firebaseio.com/products/$id.json?auth=$_authToken';
     final prodIndex = _items.indexWhere((item) => item.id == id);
 
     try {
@@ -147,7 +159,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
+    final url =
+        'https://shoepal-7137e.firebaseio.com/products/$id.json?auth=$_authToken';
     final existingProductIndex = _items.indexWhere((item) => item.id == id);
     var existingProduct = _items[existingProductIndex];
 

@@ -23,26 +23,20 @@ class Product with ChangeNotifier {
 
   void _setFavStatus(bool newStatus) {
     isFavorite = newStatus;
+    notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus(String prodId) async {
-    final url = 'https://shoepal-7137e.firebaseio.com/products/$id.json';
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
+    final url =
+        'https://shoepal-7137e.firebaseio.com/userFavorites/$userId/$id.json?auth=$token';
 
     bool currentStatus = isFavorite;
     _setFavStatus(!currentStatus);
 
     try {
-      final res = await http.patch(
+      final res = await http.put(
         url,
-        body: json.encode(
-          {
-            'title': title,
-            'description': description,
-            'price': price,
-            'imageUrl': imageUrl,
-            'isFavorite': isFavorite,
-          },
-        ),
+        body: json.encode(isFavorite),
       );
       if (res.statusCode >= 400) {
         _setFavStatus(currentStatus);
@@ -53,5 +47,6 @@ class Product with ChangeNotifier {
     }
 
     currentStatus = null;
+    notifyListeners();
   }
 }
