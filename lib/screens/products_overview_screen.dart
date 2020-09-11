@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shoepal/providers/cart.dart';
 import 'package:shoepal/providers/products.dart';
 import 'package:shoepal/screens/cart_screen.dart';
-import 'package:shoepal/shared/colors.dart';
+import 'package:shoepal/skeletons/product_grid_skeleton.dart';
 import 'package:shoepal/widget/badge.dart';
 import 'package:shoepal/widget/products_grid.dart';
 
@@ -109,11 +109,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
           ),
           _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(customBlack),
-                  ),
-                )
+              ? ProductGridSkeleton()
               : ProductsGrid(_showOnlyFavoritesData),
         ],
       ),

@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
+        ),
         ListenableProxyProvider<Auth, Products>(
           create: (ctx) => Products(
             null,
@@ -39,10 +42,6 @@ class MyApp extends StatelessWidget {
             prevProducts == null ? [] : prevProducts.items,
             auth.userId,
           ),
-          lazy: false,
-        ),
-        ChangeNotifierProvider.value(
-          value: Cart(),
         ),
         ListenableProxyProvider<Auth, Orders>(
           create: (ctx) => Orders(null, null, []),
@@ -51,11 +50,7 @@ class MyApp extends StatelessWidget {
             auth.userId,
             prevOrders == null ? [] : prevOrders.orders,
           ),
-          lazy: false,
         ),
-        // ChangeNotifierProvider.value(
-        //   value: Products(),
-        // ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, authData, _) => MaterialApp(

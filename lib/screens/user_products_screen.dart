@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shoepal/providers/products.dart';
 import 'package:shoepal/screens/single_product_screen.dart';
+import 'package:shoepal/skeletons/user_products_skeleton.dart';
 import 'package:shoepal/widget/user_product_item.dart';
 import 'package:shoepal/shared/colors.dart';
 
@@ -40,11 +41,7 @@ class UserProductsScreen extends StatelessWidget {
         future: _refreshProduct(context),
         builder: (ctx, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(customBlack),
-                    ),
-                  )
+                ? UserProductsSkeleton()
                 : RefreshIndicator(
                     backgroundColor: customBlack,
                     onRefresh: () => _refreshProduct(context),

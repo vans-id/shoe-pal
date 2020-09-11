@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shoepal/providers/orders.dart' show Orders;
 import 'package:shoepal/shared/colors.dart';
+import 'package:shoepal/skeletons/orders_skeleton.dart';
 import 'package:shoepal/widget/order_item.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -28,11 +29,7 @@ class OrdersScreen extends StatelessWidget {
         ).fetchAndSetOrders(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(customBlack),
-              ),
-            );
+            return OrdersSkeleton();
           } else if (snapshot.error != null) {
             // Do error handling
             return Center(
