@@ -44,9 +44,6 @@ class UserProductItem extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
                     title: Text(
                       'Delete Product?',
                       style: Theme.of(context).textTheme.headline2,

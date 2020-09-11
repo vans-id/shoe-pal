@@ -80,20 +80,6 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 36),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Size',
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        Text(
-                          'Size Guide',
-                          style: Theme.of(context).textTheme.bodyText2,
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 12),
                     Text(
                       'Details',
                       style: Theme.of(context).textTheme.headline3,

@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:shoepal/screens/profile_screen.dart';
 import 'package:shoepal/screens/user_products_screen.dart';
 
 import 'package:shoepal/shared/colors.dart';
@@ -19,6 +20,7 @@ class _NavScreenState extends State<NavScreen> {
     ProductsOverviewScreen(),
     OrdersScreen(),
     UserProductsScreen(),
+    ProfileScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -39,13 +41,14 @@ class _NavScreenState extends State<NavScreen> {
           buttonBackgroundColor: customBlack,
           backgroundColor: Colors.white,
           animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
+          animationDuration: Duration(milliseconds: 300),
           index: _selectedIndex,
           onTap: (index) => onItemTapped(index),
           items: [
             Icon(Icons.home, size: 30, color: Colors.white),
             Icon(Icons.compare_arrows, size: 30, color: Colors.white),
             Icon(Icons.list, size: 30, color: Colors.white),
+            Icon(Icons.perm_identity, size: 30, color: Colors.white),
           ],
         ),
       ),

@@ -50,9 +50,6 @@ class CartItem extends StatelessWidget {
           return showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
               title: Text(
                 'Are you sure?',
                 style: Theme.of(context).textTheme.headline2,

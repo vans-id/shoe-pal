@@ -119,9 +119,6 @@ class _SingleProductScreenState extends State<SingleProductScreen> {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
           title: Text(
             'An Error Occured',
             style: Theme.of(context).textTheme.headline2,

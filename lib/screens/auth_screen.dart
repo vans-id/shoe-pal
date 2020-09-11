@@ -74,7 +74,7 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.Signup;
+  AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -85,9 +85,6 @@ class _AuthCardState extends State<AuthCard> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
         title: Text(
           'Error Found',
           style: Theme.of(context).textTheme.headline3,

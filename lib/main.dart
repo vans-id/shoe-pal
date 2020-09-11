@@ -13,6 +13,7 @@ import 'package:shoepal/screens/cart_screen.dart';
 import 'package:shoepal/screens/nav_screen.dart';
 import 'package:shoepal/screens/orders_screen.dart';
 import 'package:shoepal/screens/product_detail_screen.dart';
+import 'package:shoepal/screens/splash_screen.dart';
 // import 'package:shoepal/screens/products_overview_screen.dart';
 
 void main() {
@@ -44,9 +45,10 @@ class MyApp extends StatelessWidget {
           value: Cart(),
         ),
         ListenableProxyProvider<Auth, Orders>(
-          create: (ctx) => Orders(null, []),
+          create: (ctx) => Orders(null, null, []),
           update: (ctx, auth, prevOrders) => Orders(
             auth.token,
+            auth.userId,
             prevOrders == null ? [] : prevOrders.orders,
           ),
           lazy: false,
@@ -104,8 +106,16 @@ class MyApp extends StatelessWidget {
               elevation: 0,
             ),
           ),
-          // home: NavScreen(),
-          home: authData.isAuth ? NavScreen() : AuthScreen(),
+          home: authData.isAuth
+              ? NavScreen()
+              : FutureBuilder(
+                  future: authData.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),

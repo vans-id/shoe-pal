@@ -103,33 +103,15 @@ class _OrderButtonState extends State<OrderButton> {
     setState(() {
       _isLoading = false;
     });
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        title: Text(
-          'Success Checkout',
-          style: Theme.of(context).textTheme.headline2,
-        ),
-        content: Text(
-          'Your transaction is in process',
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Okay',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          )
-        ],
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(
+        'Successfully Checkout',
+        style:
+            Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white),
       ),
-    );
+      duration: Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+    ));
     widget.cart.clear();
   }
 

@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoepal/models/http_exception.dart';
 
 class Auth with ChangeNotifier {
   String _token;
   DateTime _expDate;
   String _userId;
+  Timer _authTimer;
 
   bool get isAuth {
     return token != null;
@@ -56,8 +59,19 @@ class Auth with ChangeNotifier {
           seconds: int.parse(data['expiresIn']),
         ),
       );
+      _autoLogout();
 
       notifyListeners();
+
+      // Shared Preferences for auto Login
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': _token,
+        'userId': _userId,
+        'expDate': _expDate.toIso8601String(),
+      });
+
+      prefs.setString('userData', userData);
     } catch (err) {
       throw err;
     }
@@ -75,5 +89,52 @@ class Auth with ChangeNotifier {
     String password,
   ) async {
     return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  Future<void> logout() async {
+    _token = null;
+    _expDate = null;
+    _userId = null;
+
+    if (_authTimer != null) {
+      _authTimer.cancel();
+      _authTimer = null;
+    }
+
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    // prefs.remove('userData');
+    prefs.clear();
+  }
+
+  void _autoLogout() {
+    if (_authTimer != null) {
+      _authTimer.cancel();
+    }
+    final timeToExp = _expDate.difference(DateTime.now()).inSeconds;
+    _authTimer = Timer(Duration(seconds: timeToExp), logout);
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+
+    final extractedUserData = json.decode(prefs.getString('userData')) as Map;
+    final expiryDate = DateTime.parse(extractedUserData['expDate']);
+
+    if (expiryDate.isBefore(DateTime.now())) {
+      return false;
+    }
+
+    _token = extractedUserData['token'];
+    _userId = extractedUserData['userId'];
+    _expDate = expiryDate;
+
+    notifyListeners();
+    _autoLogout();
+    return true;
   }
 }
