@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import 'package:shoepal/helpers/custom_route.dart';
 
 import 'package:shoepal/shared/colors.dart';
 import 'package:shoepal/providers/auth.dart';
@@ -59,6 +60,10 @@ class MyApp extends StatelessWidget {
             primaryColor: customPrimary,
             primarySwatch: customPrimary,
             fontFamily: 'Montserrat',
+            // pageTransitionsTheme: PageTransitionsTheme(builders: {
+            //   TargetPlatform.android: CustomPageTransitionBuilder(),
+            //   TargetPlatform.iOS: CustomPageTransitionBuilder(),
+            // }),
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline1: TextStyle(
                     fontSize: 36,
@@ -112,6 +117,7 @@ class MyApp extends StatelessWidget {
                           : AuthScreen(),
                 ),
           routes: {
+            AuthScreen.routeName: (ctx) => AuthScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
             OrdersScreen.routeName: (ctx) => OrdersScreen(),

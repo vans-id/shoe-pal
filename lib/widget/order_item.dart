@@ -51,31 +51,34 @@ class _OrderItemState extends State<OrderItem> {
                 },
               ),
             ),
-            if (_isExpanded)
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4,
-                  horizontal: 16,
-                ),
-                height: min(widget.order.products.length * 20.0 + 60, 180),
-                child: ListView(
-                  children: widget.order.products.map((prod) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          prod.title,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        Text(
-                          '${prod.quantity} x Rp ${numberFormat(prod.price.toStringAsFixed(0))}',
-                          style: Theme.of(context).textTheme.subtitle2,
-                        )
-                      ],
-                    );
-                  }).toList(),
-                ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 50),
+              curve: Curves.easeIn,
+              padding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 16,
               ),
+              height: _isExpanded
+                  ? min(widget.order.products.length * 20.0 + 60, 180)
+                  : 0,
+              child: ListView(
+                children: widget.order.products.map((prod) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        prod.title,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        '${prod.quantity} x Rp ${numberFormat(prod.price.toStringAsFixed(0))}',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      )
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
       ),

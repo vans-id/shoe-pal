@@ -1,9 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:shoepal/models/http_exception.dart';
 
 class CartItem {
   final String id;
