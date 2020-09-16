@@ -300,25 +300,21 @@ class _AuthCardState extends State<AuthCard>
                     )
                   ],
                 ),
+                SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       _authMode == AuthMode.Login
                           ? 'Don\'t have an account?'
-                          : 'Already have an account?',
+                          : 'Already have account?',
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
-                    SizedBox(width: 8),
                     FlatButton(
                       onPressed: _switchAuthMode,
                       child: Text(
-                        '${_authMode == AuthMode.Login ? 'Signup' : 'Login'} instead',
+                        _authMode == AuthMode.Login ? 'Signup' : 'Login',
                         style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 4,
                       ),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     )

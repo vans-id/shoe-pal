@@ -84,7 +84,7 @@ class CartItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             SizedBox(
-              width: 150,
+              width: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Image.network(
@@ -94,8 +94,7 @@ class CartItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20),
-            SizedBox(
-              width: 170,
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
